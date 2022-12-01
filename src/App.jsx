@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import SwapCreate from './SwapCreate.jsx'
+import SwapDemo from './SwapDemo.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <div className="App">
-     <SwapCreate />
+     <SwapDemo />
     </div>
   )
 }

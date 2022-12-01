@@ -1,10 +1,17 @@
 import { useState } from "react";
 
-function SwapCreate({setSwapId, setSecretSeekerId, setSecretHolderId}) {
-    const [pressed, setPressed] = useState(false);
-    const onClick = () => {
-        fetch('/api/v1/swap/create', {
-            method: 'POST',
+function SwapForm({swapId, participant}) {
+
+    const [data, setData] = useState({
+        data: {
+            uid: swapId,
+            state: participant.state
+            }
+    });
+
+    const onClickOpen = () => {
+        fetch('/api/v1/swap', {
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
                 makerOrderProps: {
@@ -43,10 +50,16 @@ function SwapCreate({setSwapId, setSecretSeekerId, setSecretHolderId}) {
 
             .catch(err => console.log(err))
     }
+
+    const onClickCommit = () => {}
+
     return (
-      <button onClick={onClick}>Create Swap</button>
-    );
+        <>
+            <button onClick={onClickOpen}>Open Swap</button>
+            <button onClick={onClickCommit}>Commit Swap</button>
+            <p>data: {JSON.stringify(data)}</p>
+        </>);
+
 
 }
-
-export default SwapCreate;
+export default SwapForm;
