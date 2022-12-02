@@ -13,7 +13,7 @@ function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderI
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
                 makerOrderProps: {
-                    uid: 'uid0',
+                    uid: 'uid1',
                     hash: null,
                     side: 'ask',
                     type: 'limit',
@@ -25,7 +25,7 @@ function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderI
                     quoteQuantity: 30000
                 },
                 takerOrderProps: {
-                    uid: 'uid1',
+                    uid: 'uid0',
                     hash: null,
                     side: 'bid',
                     type: 'limit',
@@ -44,7 +44,6 @@ function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderI
             .then(data => {
                 console.log(data.swap.id)
                 console.log(`${JSON.stringify(data)}`)
-                console.log
                 setSwapId(data.swap.id)
                 setSecretSeekerId(data.swap.secretSeeker.id)
                 setSecretHolderId(data.swap.secretHolder.id)

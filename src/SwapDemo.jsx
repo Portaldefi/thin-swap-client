@@ -9,6 +9,8 @@ function SwapDemo() {
     const [secretSeekerId, setSecretSeekerId] = useState(null)
     const [secretHolderId, setSecretHolderId] = useState(null)
     const [secret, setSecret] = useState(null)
+    const [request1, setRequest1] = useState(null)
+    const [request2, setRequest2] = useState(null)
     const [alice, setAlice] = useState({
         state: {
             isSecretHolder: false,
@@ -85,8 +87,10 @@ function SwapDemo() {
         <>
             <SwapCreate setSwapId={setSwapId} setSwapHash={setSwapHash} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setSecret={setSecret}/>
             <p>swapId: {swapId}</p>
-            <SwapForm swapId={swapId} swapHash={swapHash} participant={alice} id={secretSeekerId}/>
-            <SwapForm swapId={swapId} swapHash={swapHash} participant={carol} id={secretHolderId} secret={secret}/>
+            <p>invoice1: {request1}</p>
+            <p>invoice2: {request2}</p>
+            <SwapForm swapId={swapId} swapHash={swapHash} participant={alice} id={secretSeekerId} setRequest={setRequest1}/>
+            <SwapForm swapId={swapId} swapHash={swapHash} participant={carol} id={secretHolderId} setRequest={setRequest2} secret={secret}/>
 
         </>);
 }

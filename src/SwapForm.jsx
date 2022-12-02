@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function SwapForm({swapId, swapHash, participant, id, secret}) {
+function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
 
     const [data, setData] = useState({
         data: {
@@ -17,6 +17,30 @@ function SwapForm({swapId, swapHash, participant, id, secret}) {
                 swap: { id: swapId },
                 party: {
                     id: id,
+                    state: Object.assign(participant.state, {secret: secret})
+                }
+            })
+        })
+            .then(res => {
+                return res.json()
+            })
+            .then(data => {
+                console.log(JSON.stringify(data))
+                console.log(`request: ${data.publicInfo.request}`)
+                setRequest(data.publicInfo.request)
+            })
+
+            .catch(err => console.log(err))
+    }
+
+    const onClickCommit = () => {
+        fetch('/api/v1/swap', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                swap: { id: swapId },
+                party: {
+                    id: id,
                     state: participant.state
                 }
             })
@@ -26,14 +50,11 @@ function SwapForm({swapId, swapHash, participant, id, secret}) {
             })
             .then(data => {
                 console.log(JSON.stringify(data))
-                console.log(`request1: ${data.publicInfo.left.request}`)
-                console.log(`request2: ${data.publicInfo.right.request}`)
             })
 
             .catch(err => console.log(err))
-    }
 
-    const onClickCommit = () => {}
+    }
 
     return (
         <>
@@ -42,7 +63,6 @@ function SwapForm({swapId, swapHash, participant, id, secret}) {
             <p>participant id: {id}</p>
             <p>swapHash: {swapHash}</p>
             <p>swapSecret: {secret}</p>
-            <p>{JSON.stringify(data)}</p>
         </>);
 
 
