@@ -1,7 +1,8 @@
 import { useState } from "react";
 
 function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderId, setSecret}) {
-
+    const [baseQuantity, setBaseQuantity] = useState(10000)
+    const [quoteQuantity, setQuoteQuantity] = useState(30000)
 
 
 
@@ -19,10 +20,10 @@ function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderI
                     type: 'limit',
                     baseAsset: 'BTC1',
                     baseNetwork: 'lightning',
-                    baseQuantity: 10000,
+                    baseQuantity: baseQuantity,
                     quoteAsset: 'BTC2',
                     quoteNetwork: 'lightning',
-                    quoteQuantity: 30000
+                    quoteQuantity: quoteQuantity
                 },
                 takerOrderProps: {
                     uid: 'uid0',
@@ -31,10 +32,10 @@ function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderI
                     type: 'limit',
                     baseAsset: 'BTC1',
                     baseNetwork: 'lightning',
-                    baseQuantity: 10000,
+                    baseQuantity: baseQuantity,
                     quoteAsset: 'BTC2',
                     quoteNetwork: 'lightning',
-                    quoteQuantity: 30000
+                    quoteQuantity: quoteQuantity
                 }
             })
         })
@@ -55,7 +56,9 @@ function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderI
     }
     return (
         <>
-            <button onClick={onClick}>Create Swap</button>
+            <p><button onClick={onClick}>Create Swap</button></p>
+            <p><label>Base Quantity: <input type='number' value={baseQuantity} onChange={(evt) => setBaseQuantity(evt.target.value)}/></label></p>
+            <p><label>Base Quantity: <input type='number' value={quoteQuantity} onChange={(evt) => setQuoteQuantity(evt.target.value)}/></label></p>
         </>
     );
 
