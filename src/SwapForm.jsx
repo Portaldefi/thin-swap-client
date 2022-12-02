@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function SwapForm({swapId, participant}) {
+function SwapForm({swapId, swapHash, participant, id, secret}) {
 
     const [data, setData] = useState({
         data: {
@@ -14,29 +14,10 @@ function SwapForm({swapId, participant}) {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
-                makerOrderProps: {
-                    uid: 'uid0',
-                    hash: 'aaaa',
-                    side: 'ask',
-                    type: 'limit',
-                    baseAsset: 'BTC1',
-                    baseNetwork: 'lightning',
-                    baseQuantity: 10000,
-                    quoteAsset: 'BTC2',
-                    quoteNetwork: 'lightning',
-                    quoteQuantity: 30000
-                },
-                takerOrderProps: {
-                    uid: 'uid1',
-                    hash: 'aaaa',
-                    side: 'bid',
-                    type: 'limit',
-                    baseAsset: 'BTC1',
-                    baseNetwork: 'lightning',
-                    baseQuantity: 10000,
-                    quoteAsset: 'BTC2',
-                    quoteNetwork: 'lightning',
-                    quoteQuantity: 30000
+                swap: { id: swapId },
+                party: {
+                    id: id,
+                    state: participant.state
                 }
             })
         })
@@ -44,8 +25,9 @@ function SwapForm({swapId, participant}) {
                 return res.json()
             })
             .then(data => {
-                console.log(data.id)
-                setSwapId(data.id)
+                console.log(JSON.stringify(data))
+                console.log(`request1: ${data.publicInfo.left.request}`)
+                console.log(`request2: ${data.publicInfo.right.request}`)
             })
 
             .catch(err => console.log(err))
@@ -57,7 +39,10 @@ function SwapForm({swapId, participant}) {
         <>
             <button onClick={onClickOpen}>Open Swap</button>
             <button onClick={onClickCommit}>Commit Swap</button>
-            <p>data: {JSON.stringify(data)}</p>
+            <p>participant id: {id}</p>
+            <p>swapHash: {swapHash}</p>
+            <p>swapSecret: {secret}</p>
+            <p>{JSON.stringify(data)}</p>
         </>);
 
 

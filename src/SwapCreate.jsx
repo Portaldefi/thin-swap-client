@@ -1,15 +1,20 @@
 import { useState } from "react";
 
-function SwapCreate({setSwapId, setSecretSeekerId, setSecretHolderId}) {
+function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderId, setSecret}) {
+
+
+
+
     const [pressed, setPressed] = useState(false);
     const onClick = () => {
+
         fetch('/api/v1/swap/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
                 makerOrderProps: {
                     uid: 'uid0',
-                    hash: 'aaaa',
+                    hash: null,
                     side: 'ask',
                     type: 'limit',
                     baseAsset: 'BTC1',
@@ -21,7 +26,7 @@ function SwapCreate({setSwapId, setSecretSeekerId, setSecretHolderId}) {
                 },
                 takerOrderProps: {
                     uid: 'uid1',
-                    hash: 'aaaa',
+                    hash: null,
                     side: 'bid',
                     type: 'limit',
                     baseAsset: 'BTC1',
@@ -37,14 +42,22 @@ function SwapCreate({setSwapId, setSecretSeekerId, setSecretHolderId}) {
                 return res.json()
             })
             .then(data => {
-                console.log(data.id)
-                setSwapId(data.id)
+                console.log(data.swap.id)
+                console.log(`${JSON.stringify(data)}`)
+                console.log
+                setSwapId(data.swap.id)
+                setSecretSeekerId(data.swap.secretSeeker.id)
+                setSecretHolderId(data.swap.secretHolder.id)
+                setSecret(data.swapSecret)
+                setSwapHash(data.swap.secretHash)
             })
 
             .catch(err => console.log(err))
     }
     return (
-      <button onClick={onClick}>Create Swap</button>
+        <>
+            <button onClick={onClick}>Create Swap</button>
+        </>
     );
 
 }
