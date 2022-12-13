@@ -58,7 +58,7 @@ function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderI
         <>
             <p><button onClick={onClick}>Create Swap</button></p>
             <p><label>Base Quantity: <input type='number' value={baseQuantity} onChange={(evt) => setBaseQuantity(evt.target.value)}/></label></p>
-            <p><label>Base Quantity: <input type='number' value={quoteQuantity} onChange={(evt) => setQuoteQuantity(evt.target.value)}/></label></p>
+            <p><label>Quote Quantity: <input type='number' value={quoteQuantity} onChange={(evt) => setQuoteQuantity(evt.target.value)}/></label></p>
         </>
     );
 
