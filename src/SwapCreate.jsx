@@ -1,41 +1,38 @@
 import { useState } from "react";
 
-function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderId, setSecret}) {
-    const [baseQuantity, setBaseQuantity] = useState(10000)
-    const [quoteQuantity, setQuoteQuantity] = useState(30000)
+import {Buffer} from 'buffer';
 
+
+function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderId, setSecret}) {
+    const [baseQuantity, setBaseQuantity] = useState(50000)
+    const [quoteQuantity, setQuoteQuantity] = useState(50000)
 
 
     const [pressed, setPressed] = useState(false);
     const onClick = () => {
 
-        fetch('/api/v1/swap/create', {
+        const creds = `submarine-swap-client:submarine-swap-client`
+
+        fetch('/api/v2/swap/submarine-create', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Basic ${Buffer.from(creds).toString('base64')}`
+            },
             body: JSON.stringify({
-                makerOrderProps: {
-                    uid: 'uid1',
+                holderSubmarineSwapProps: {
+                    uid: 'alice',
                     hash: null,
-                    side: 'ask',
-                    type: 'limit',
-                    baseAsset: 'BTC1',
-                    baseNetwork: 'lightning',
-                    baseQuantity: baseQuantity,
-                    quoteAsset: 'BTC2',
-                    quoteNetwork: 'lightning',
-                    quoteQuantity: quoteQuantity
+                    party: 'secretHolder',
+                    quantity: baseQuantity,
+                    asset: 'BTC'
                 },
-                takerOrderProps: {
-                    uid: 'uid0',
+                seekerSubmarineSwapProps: {
+                    uid: 'carol',
                     hash: null,
-                    side: 'bid',
-                    type: 'limit',
-                    baseAsset: 'BTC1',
-                    baseNetwork: 'lightning',
-                    baseQuantity: baseQuantity,
-                    quoteAsset: 'BTC2',
-                    quoteNetwork: 'lightning',
-                    quoteQuantity: quoteQuantity
+                    party: 'secretSeeker',
+                    quantity: baseQuantity,
+                    asset: 'BTC'
                 }
             })
         })
@@ -59,9 +56,9 @@ function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderI
             <p><button onClick={onClick}>Create Swap</button></p>
             <p><label>Base Quantity: <input type='number' value={baseQuantity} onChange={(evt) => setBaseQuantity(evt.target.value)}/></label></p>
             <p><label>Quote Quantity: <input type='number' value={quoteQuantity} onChange={(evt) => setQuoteQuantity(evt.target.value)}/></label></p>
+
         </>
     );
-
 }
 
 export default SwapCreate;
