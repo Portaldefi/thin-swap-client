@@ -1,6 +1,8 @@
 import { useState } from "react";
+import {Buffer} from "buffer";
 
 function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
+    const creds = `submarine-swap-client:submarine-swap-client`
 
     const [data, setData] = useState({
         data: {
@@ -10,14 +12,20 @@ function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
     });
 
     const onClickOpen = () => {
-        fetch('/api/v1/swap', {
+        fetch('/api/v2/swap/submarine', {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Basic ${Buffer.from(creds).toString('base64')}`
+            },
             body: JSON.stringify({
                 swap: { id: swapId },
                 party: {
                     id: id,
                     state: Object.assign(participant.state, {secret: secret})
+                },
+                opts: {
+
                 }
             })
         })
@@ -34,14 +42,20 @@ function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
     }
 
     const onClickCommit = () => {
-        fetch('/api/v1/swap', {
+        fetch('/api/v2/swap/submarine', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Basic ${Buffer.from(creds).toString('base64')}`
+            },
             body: JSON.stringify({
                 swap: { id: swapId },
                 party: {
                     id: id,
                     state: participant.state
+                },
+                opts: {
+
                 }
             })
         })
