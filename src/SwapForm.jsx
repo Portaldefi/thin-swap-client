@@ -19,7 +19,7 @@ function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
                 authorization: `Basic ${Buffer.from(creds).toString('base64')}`
             },
             body: JSON.stringify({
-                swap: { id: swapId },
+                swap: { id: swapId, swapHash },
                 party: {
                     id: id,
                     state: Object.assign(participant.state, {secret: secret})
@@ -34,8 +34,8 @@ function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
             })
             .then(data => {
                 console.log(JSON.stringify(data))
-                console.log(`request: ${data.publicInfo.request}`)
-                setRequest(data.publicInfo.request)
+                // console.log(`request: ${data.publicInfo.request}`)
+                // setRequest(data.publicInfo.request)
             })
 
             .catch(err => console.log(err))

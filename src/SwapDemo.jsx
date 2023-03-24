@@ -31,8 +31,8 @@ function SwapDemo() {
             <p>swapId: {swapId}</p>
             <p>invoice1: {request1}</p>
             <p>invoice2: {request2}</p>
-            <SwapForm swapId={swapId} swapHash={swapHash} participant={carol} id={secretSeekerId} setRequest={setRequest1}/>
             <SwapForm swapId={swapId} swapHash={swapHash} participant={alice} id={secretHolderId} setRequest={setRequest2} secret={secret}/>
+            <SwapForm swapId={swapId} swapHash={swapHash} participant={carol} id={secretSeekerId} setRequest={setRequest1}/>
 
         </>);
 }
