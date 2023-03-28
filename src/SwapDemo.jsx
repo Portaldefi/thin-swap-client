@@ -29,8 +29,8 @@ function SwapDemo() {
         <>
             <SwapCreate setSwapId={setSwapId} setSwapHash={setSwapHash} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setSecret={setSecret}/>
             <p>swapId: {swapId}</p>
-            <p>invoice1: {request1}</p>
-            <p>invoice2: {request2}</p>
+            <p>L1-address: {request1}</p>
+            <p>L2-invoice: {request2}</p>
             <SwapForm swapId={swapId} swapHash={swapHash} participant={alice} id={secretHolderId} setRequest={setRequest2} secret={secret}/>
             <SwapForm swapId={swapId} swapHash={swapHash} participant={carol} id={secretSeekerId} setRequest={setRequest1}/>
 
