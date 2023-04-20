@@ -10,6 +10,7 @@ export default defineConfig({
         target: 'http://localhost:42297',
         changeOrigin: true,
         secure: false,
+        proxyTimeout: 180000,
         ws: true,
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, _res) => {
