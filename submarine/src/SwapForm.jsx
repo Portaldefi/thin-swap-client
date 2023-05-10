@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {Buffer} from "buffer";
+import { useAppDispatch, useAppSelector } from './store/hooks'
 
 function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
     const creds = `submarine-swap-client:submarine-swap-client`
+
+
+    console.log(`participant in SwapForm: ${JSON.stringify(participant)}`)
 
     const [data, setData] = useState({
         data: {
@@ -10,6 +14,25 @@ function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
             state: participant.state
             }
     });
+
+    const user = useAppSelector(state => state.user)
+
+    useEffect(() => {
+        console.log('useEffect {user}', { user })
+        if (user.isLoggedIn) {
+            try {
+                console.log('user', user)
+                const connected = user.user.connect()
+            } catch (error) {
+                console.warn(`sorry an error occurred, due to ${error.message} `)
+                // logOut();
+            }
+        }
+        return () => {
+            if (user.isLoggedIn) user.user.disconnect()
+            console.log('useEffect cleanup')
+        }
+    }, [user])
 
     const onClickOpen = () => {
         fetch('/api/v2/swap/submarine', {
