@@ -27,6 +27,7 @@ function SwapDemo() {
 
     return (
         <>
+            <h1>Ordinal Swap</h1>
             <SwapCreate setSwapId={setSwapId} setSwapHash={setSwapHash} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setSecret={setSecret}/>
             <p>swapId: {swapId}</p>
             <p>L1-address: {request1}</p>
