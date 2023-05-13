@@ -1,20 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import SwapDemo from './SwapDemo.jsx'
-import { store } from './store/store'
 import { Provider } from 'react-redux'
+import { store } from './store/store'
+import './App.css'
+import {BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import SubmarineSwap from './submarine/SubmarineSwap.jsx'
+import OrdinalSwap from './ordinal/OrdinalSwap.jsx'
+import Home from './Home.jsx'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => <Provider store={store}>
+    <Router>
+        <div className="App">
 
-  return (
-        <Provider store={store}>
-            <div className="App">
-                <SwapDemo />
-            </div>
-        </Provider>
-  )
-}
+
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/submarine" element={<SubmarineSwap/>}>
+                </Route>
+                <Route path="/ordinal" element={<OrdinalSwap/>}>
+                </Route>
+            </Routes>
+        </div>
+    </Router>
+</Provider>
 
 export default App

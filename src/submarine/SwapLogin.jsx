@@ -1,6 +1,6 @@
-import Client from './client/v2/client.js'
-import { signIn, signOut } from './store/userSlice.js'
-import { useAppDispatch, useAppSelector } from './store/hooks.js'
+import Client from '../client/v2/client.js'
+import { signIn, signOut } from '../store/userSlice.js'
+import { useAppDispatch, useAppSelector } from '../store/hooks.js'
 import { useState, useEffect } from "react";
 
 const hostname = window.location.hostname

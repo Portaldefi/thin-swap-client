@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import {Buffer} from 'buffer'
-import { useAppDispatch, useAppSelector } from './store/hooks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 
 
 function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderId, setSecret}) {

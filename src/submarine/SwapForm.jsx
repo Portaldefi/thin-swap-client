@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {Buffer} from "buffer";
-import { useAppDispatch, useAppSelector } from './store/hooks'
+import { useAppSelector } from '../store/hooks'
 
 function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
     const creds = `submarine-swap-client:submarine-swap-client`
