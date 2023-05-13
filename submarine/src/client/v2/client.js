@@ -62,6 +62,10 @@ export default class Client  extends EventEmitter {
         return this.core.disconnect()
     }
 
+    _send(obj) {
+        return this.core._send(obj)
+    }
+
 
     /**
      * Adds a limit order to the orderbook

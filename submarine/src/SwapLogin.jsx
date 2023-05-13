@@ -6,9 +6,10 @@ import { useState, useEffect } from "react";
 const hostname = window.location.hostname
 const port = window.location.port
 
-const dispatch = useAppDispatch
 
 function SwapLogin({participant}) {
+
+    const dispatch = useAppDispatch
     const [login, setLogin] = useState(false)
     const [logout, setLogout] = useState(false)
 

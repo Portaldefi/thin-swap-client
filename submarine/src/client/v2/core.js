@@ -81,6 +81,14 @@ export default class Core extends EventEmitter {
             const url = `ws://${this.hostname}:${this.port}${this.pathname}/${this.id}`
             const ws = new WebSocket(url)
 
+
+            ws.toJSON = function () {
+                return { '@type': 'websocket', user: ws.user }
+            }
+            ws[Symbol.for('nodejs.util.inspect.custom')] = function () {
+                return this.toJSON()
+            }
+
             ws.onerror = () => { reject }
             ws.onclose = () => { this.websocket = null }
             ws.onopen = () => {
