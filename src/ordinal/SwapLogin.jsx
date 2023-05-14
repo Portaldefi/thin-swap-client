@@ -1,7 +1,7 @@
 import Client from '../client/v2/client.js'
 import { signIn, signOut } from '../store/userSlice.js'
 import { useAppDispatch, useAppSelector } from '../store/hooks.js'
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const hostname = window.location.hostname
 const port = window.location.port
@@ -9,9 +9,7 @@ const port = window.location.port
 
 function SwapLogin({participant}) {
 
-    const dispatch = useAppDispatch
-    const [login, setLogin] = useState(false)
-    const [logout, setLogout] = useState(false)
+    const dispatch = useAppDispatch()
 
     console.log(`participant in Login: ${JSON.stringify(participant)}`)
 
@@ -19,29 +17,34 @@ function SwapLogin({participant}) {
 
     const user = useAppSelector(state => state.user)
     const doLogin = () => {
-        setLogin(true)
+        dispatch(signIn(client))
     }
 
     const doLogout = () => {
-        setLogout(true)
+        dispatch(signOut(client))
     }
 
     useEffect(() => {
-        if (login) {
-            console.log('useEffect {login}', {login})
-            dispatch(signIn(client))
-            setLogin(false)
-        }
-        else if (logout) {
-            console.log('useEffect {login}', {login})
-            dispatch(signOut(client))
-            setLogout(false)
+        console.log("users", user)
+    }, [user])
 
-        }
-        return () => {
 
-        }
-    }, [login, logout])
+    // useEffect(() => {
+    //     console.log('useEffect {user}', { user })
+    //     if (user.isLoggedIn) {
+    //         try {
+    //             console.log('user', user)
+    //             const connected = user.user.connect()
+    //         } catch (error) {
+    //             console.warn(`sorry an error occurred, due to ${error.message} `)
+    //             // logOut();
+    //         }
+    //     }
+    //     return () => {
+    //         if (user.isLoggedIn) user.user.disconnect()
+    //         console.log('useEffect cleanup')
+    //     }
+    // }, [user])
 
 
     return (
