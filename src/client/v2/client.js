@@ -16,7 +16,8 @@ export default class Client  extends EventEmitter {
         super()
 
         this.username = props.id
-        props.pathname = props.pathname || '/api/v2/updates'
+        props.pathname = props.pathname || '/api/v2/dev'
+        // props.pathname = props.pathname || '/api/v2/updates'
         this.core = new Core(props)
 
         Object.seal(this)
@@ -62,6 +63,10 @@ export default class Client  extends EventEmitter {
         return this.core.disconnect()
     }
 
+    _send(obj) {
+        return this.core._send(obj)
+    }
+
 
     /**
      * Adds a limit order to the orderbook
@@ -86,7 +91,7 @@ export default class Client  extends EventEmitter {
      * @param {Object} order The limit order to delete the orderbook
      */
     cancelLimitOrder (order) {
-        return this.core._request('/api/v1/orderbook/limit', { method: 'DELETE' }, {
+        return this.core._request('/api/v2/orderbook/limit', { method: 'DELETE' }, {
             id: order.id,
             baseAsset: order.baseAsset,
             quoteAsset: order.quoteAsset
@@ -100,7 +105,7 @@ export default class Client  extends EventEmitter {
      * @returns {Swap}
      */
     swapOpen (swap, opts) {
-        return this.core._request('/api/v1/swap', { method: 'PUT' }, { swap, opts })
+        return this.core._request('/api/v2/swap', { method: 'PUT' }, { swap, opts })
     }
 
     /**
@@ -110,7 +115,7 @@ export default class Client  extends EventEmitter {
      * @returns {Promise<Void>}
      */
     swapCommit (swap, opts) {
-        return this.core._request('/api/v1/swap', { method: 'POST' }, { swap, opts })
+        return this.core._request('/api/v2/swap', { method: 'POST' }, { swap, opts })
     }
 
     /**
@@ -120,7 +125,11 @@ export default class Client  extends EventEmitter {
      * @returns {Promise<Void>}
      */
     swapAbort (swap, opts) {
-        return this.core._request('/api/v1/swap', { method: 'DELETE' }, { swap, opts })
+        return this.core._request('/api/v2/swap', { method: 'DELETE' }, { swap, opts })
+    }
+
+    _send(obj) {
+        return this.core._send(obj)
     }
 
 }

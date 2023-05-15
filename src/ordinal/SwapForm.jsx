@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import {Buffer} from "buffer";
-import { useAppDispatch, useAppSelector } from './store/hooks'
+import { Buffer } from "buffer";
+import { useAppSelector } from '../store/hooks'
 
 function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
     const creds = `submarine-swap-client:submarine-swap-client`
@@ -18,15 +18,49 @@ function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
     const user = useAppSelector(state => state.user)
 
     useEffect(() => {
-        console.log('useEffect {user}', { user })
-        if (user.isLoggedIn) {
-            try {
-                console.log('user', user)
-                const connected = user.user.connect()
-            } catch (error) {
-                console.warn(`sorry an error occurred, due to ${error.message} `)
-                // logOut();
+        console.log('useEffect {user}', {user})
+        console.log('participant: ', participant)
+        let pUser
+        user.forEach(person => {
+            if (person.username === participant.username) {
+                pUser = person
             }
+        })
+        console.log('pUser: ', pUser)
+        if (typeof pUser !== 'undefined') {
+
+
+            if (pUser.isLoggedIn) {
+                console.log(`user logged in`, pUser.username)
+                try {
+                    console.log('user', pUser)
+                    const connected = pUser.Client.connect()
+
+                    console.log(`pUser: ${JSON.stringify(pUser)}`)
+                    console.log(`connected: ${JSON.stringify(connected)}`)
+
+                    const obj = {foo: 'bar'}
+
+                    console.log(`user.Client: ${JSON.stringify(pUser.Client)}`)
+
+
+                    // pUser.Client
+                    //     .once('message', data => {
+                    //         console.log(`message returned: ${JSON.stringify(data)}`)
+                    //     })
+                    //     ._send(obj)
+
+
+                } catch (error) {
+                    console.warn(`sorry an error occurred, due to ${error.message} `)
+                    // logOut();
+                }
+            } else {
+                console.log(`user not logged in`, pUser.username)
+            }
+        }
+        else {
+            console.log('participant is not available in user state yet')
         }
         return () => {
             if (user.isLoggedIn) user.user.disconnect()

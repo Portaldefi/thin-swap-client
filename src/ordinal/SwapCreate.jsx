@@ -1,26 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import {Buffer} from 'buffer';
+import {Buffer} from 'buffer'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 
 
 function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderId, setSecret}) {
     const [baseQuantity, setBaseQuantity] = useState(50000)
     const [fee, setFee] = useState(1000)
 
-const [pressed, setPressed] = useState(false);
+    const [pressed, setPressed] = useState(false);
     const onClick = () => {
         // alice1 - from wallets.json - "wif": "cQBwuzEBYQrbWKFZZFpgitRpdDDxUrT1nzvhDWhxMmFtWdRnrCSm",
         const creds = `submarine-swap-client:submarine-swap-client`
 
-        fetch('/api/v2/swap/submarine-create', {
+        fetch('/api/v2/swap/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 authorization: `Basic ${Buffer.from(creds).toString('base64')}`
             },
             body: JSON.stringify({
-
-                holderSubmarineSwapProps: {
+                swapType: 'ordinal',
+                secretHolderProps: {
                     uid: 'alice',
                     hash: null,
                     party: 'secretHolder',
@@ -28,8 +29,8 @@ const [pressed, setPressed] = useState(false);
                     fee: fee,
                     asset: 'BTC'
                 },
-                seekerSubmarineSwapProps: {
-                    uid: 'carol',
+                secretSeekerProps: {
+                    uid: 'bob',
                     hash: null,
                     party: 'secretSeeker',
                     quantity: baseQuantity,

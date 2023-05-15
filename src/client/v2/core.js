@@ -6,7 +6,6 @@
 
 import { Buffer } from 'buffer'
 import { EventEmitter } from 'events'
-import api from 'ordinal/src/client/v2/client.js'
 
 /**
  * Exports an implementation of a client for v2 calls
@@ -32,6 +31,7 @@ export default class Core extends EventEmitter {
         this.id = props.id
         this.hostname = props.hostname || 'localhost'
         this.port = props.port || 80
+        this.pathname = props.pathname
         this.websocket = null
 
         this.on('log', (level, ...args) => console[level](...args))
@@ -81,15 +81,38 @@ export default class Core extends EventEmitter {
             const url = `ws://${this.hostname}:${this.port}${this.pathname}/${this.id}`
             const ws = new WebSocket(url)
 
+            const obj = { foo: 'bar0' }
+
+
+            ws.toJSON = function () {
+                return { '@type': 'websocket', user: ws.user }
+            }
+            ws[Symbol.for('nodejs.util.inspect.custom')] = function () {
+                return this.toJSON()
+            }
+
+            console.log(`ws: ${typeof ws}`)
+            console.log(`ws: ${JSON.stringify(ws)}`)
+
             ws.onerror = () => { reject }
             ws.onclose = () => { this.websocket = null }
             ws.onopen = () => {
-                ws.onmessage = (...args) => { this._onMessage(...args) }
+                console.log('*** ws opened')
+                ws.onmessage = (...args) => {
+                    console.log('*** message in ws')
+                    this._onMessage(...args)
+                }
                 this.emit('connected')
+                console.log('sending test object')
+                this._send(obj)
+                console.log('after sending test obj')
+
                 resolve()
             }
-
+            console.log('before setting websocket')
             this.websocket = ws
+            console.log('after setting websocket')
+            console.log(`this.websocket: ${JSON.stringify(this.websocket)}`)
         })
     }
 
@@ -197,7 +220,9 @@ export default class Core extends EventEmitter {
         let event, arg
 
         try {
+            console.log('in _onMessage with msg.data: ', JSON.stringify(msg))
             arg = JSON.parse(msg.data)
+            console.log('in _onMessage with arg: ', arg)
             event = (arg['@type'] != null && arg.status != null)
                 ? `${arg['@type'].toLowerCase()}.${arg.status}`
                 : 'message'
