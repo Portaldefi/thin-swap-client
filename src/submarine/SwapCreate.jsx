@@ -13,15 +13,16 @@ function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderI
         // alice1 - from wallets.json - "wif": "cQBwuzEBYQrbWKFZZFpgitRpdDDxUrT1nzvhDWhxMmFtWdRnrCSm",
         const creds = `submarine-swap-client:submarine-swap-client`
 
-        fetch('/api/v2/swap/submarine-create', {
+        // fetch('/api/v2/swap/create', {
+        fetch('/api/v2/swap/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 authorization: `Basic ${Buffer.from(creds).toString('base64')}`
             },
             body: JSON.stringify({
-
-                holderSubmarineSwapProps: {
+                swapType: 'submarine',
+                secretHolderProps: {
                     uid: 'alice',
                     hash: null,
                     party: 'secretHolder',
@@ -29,7 +30,7 @@ function SwapCreate({setSwapId, setSwapHash, setSecretSeekerId, setSecretHolderI
                     fee: fee,
                     asset: 'BTC'
                 },
-                seekerSubmarineSwapProps: {
+                secretSeekerProps: {
                     uid: 'bob',
                     hash: null,
                     party: 'secretSeeker',
