@@ -1,37 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = [{
-  username: "initial",
-  Client: {},
+const initialState = {
   isLoggedIn: false
-}]
+}
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     signIn: (state, action) => {
-      let ran = false;
-      state.forEach((person) => {
-        if(person.username == action.payload.username) {
-          person.isLoggedIn = true
-          ran = true;
-        }
-      })
-      if (!ran) {
-        state.push({
-          username: action.payload.username,
-          Client: action.payload,
-          isLoggedIn: true
-        })
-      }
+      state.user = action.payload
+      state.isLoggedIn = true
     },
     signOut: (state, action) => {
-      state.forEach((person) => {
-        if(person.username == action.payload.username) {
-          person.isLoggedIn = false
-        }
-      })
+      state.isLoggedIn = false
+      state.user = null
     }
   }
 })

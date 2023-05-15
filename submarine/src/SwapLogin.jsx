@@ -6,9 +6,11 @@ import { useState, useEffect } from "react";
 const hostname = window.location.hostname
 const port = window.location.port
 
+const dispatch = useAppDispatch
+
 function SwapLogin({participant}) {
-    
-    const dispatch = useAppDispatch()
+    const [login, setLogin] = useState(false)
+    const [logout, setLogout] = useState(false)
 
     console.log(`participant in Login: ${JSON.stringify(participant)}`)
 
@@ -16,16 +18,29 @@ function SwapLogin({participant}) {
 
     const user = useAppSelector(state => state.user)
     const doLogin = () => {
-        dispatch(signIn(client))
+        setLogin(true)
     }
 
     const doLogout = () => {
-        dispatch(signOut(client))
+        setLogout(true)
     }
 
     useEffect(() => {
-        console.log("users", user)
-    }, [user])
+        if (login) {
+            console.log('useEffect {login}', {login})
+            dispatch(signIn(client))
+            setLogin(false)
+        }
+        else if (logout) {
+            console.log('useEffect {login}', {login})
+            dispatch(signOut(client))
+            setLogout(false)
+
+        }
+        return () => {
+
+        }
+    }, [login, logout])
 
 
     return (
