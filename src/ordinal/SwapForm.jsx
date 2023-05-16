@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Buffer } from "buffer";
 import { useAppSelector } from '../store/hooks'
+import getUser  from '../store/util'
 
-function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
+function SwapForm({swapId, swapState, setSwapState, swapHash, participant, id, secret, setRequest}) {
     const creds = `submarine-swap-client:submarine-swap-client`
 
 
@@ -222,6 +223,131 @@ function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
             .catch(err => console.log(err))
 
     }
+
+
+    useEffect(() => {
+        const pUser = getUser(user, participant)
+        console.log("running useEffect", swapState)
+        if(swapState === 0) {
+            console.log("swapState: swap begins ", swapState)
+
+        } else if(swapState === 1) {
+            console.log("swapState: 1st order placed", swapState)
+        }
+        else if (swapState === 2) {
+            console.log("swapState: 2nd order placed", swapState)
+
+            pUser.Client.listen("swap.created",swap => {
+                // dispatch(updateSwapStatus({ status: 2 }));
+                console.log('swap.created event received', swap)
+                // if(user.user.id == swap.secretSeeker.id){ // TODO also add check if swapOpen already called on swap id
+                //     const network = swap.secretHolder.network['@type'].toLowerCase();
+                //     const credentials = user.user.credentials;
+                //     setSwapState(2);
+                //     console.log("swapOpen (secretSeeker) requested, sentsettingSwapState to 2");
+                //     user.user.swapOpen(swap, { [network]: credentials[network]});
+                // }
+            })
+            pUser.Client.listen("swap.opening", swap => {
+                console.log('swap.opening event received', swap)
+                // log("orderSecret in swap.opening shouldn't be null", orderSecret)
+            })
+            pUser.Client.listen("swap.opening", swap => {
+                // dispatch(updateSwapStatus({ status: 3 }));
+                console.log('swap.opening event received', swap)
+            })
+        }
+        else if (swapState ===3) {
+            console.log("swapState: swap order request sent ", swapState)
+
+            pUser.Client.listen("swap.created",swap => {
+                // dispatch(updateSwapStatus({ status: 2 }));
+                console.log('swap.created event received', swap)
+                // if(user.user.id == swap.secretSeeker.id){ // TODO also add check if swapOpen already called on swap id
+                //     const network = swap.secretHolder.network['@type'].toLowerCase();
+                //     const credentials = user.user.credentials;
+                //     setSwapState(2);
+                //     console.log("swapOpen (secretSeeker) requested, sentsettingSwapState to 2");
+                //     user.user.swapOpen(swap, { [network]: credentials[network]});
+                // }
+            })
+            pUser.Client.listen("swap.opening", swap => {
+                // dispatch(updateSwapStatus({ status: 3 }));
+                console.log('swap.opening event received', swap)
+                console.log("orderSecret in swap.opening !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! shouldn't be null",orderSecret)
+                // if(user.user.id == swap.secretHolder.id && orderSecret!=null) { // TODO also add check if swapOpen already called on swap id
+                //     const network = swap.secretSeeker.network['@type'].toLowerCase();
+                //     const credentials = user.user.credentials;
+                //     // setSwapState(2);
+                //     // console.log("settingSwapState to 2");
+                //     user.user.swapOpen(swap, { [network]: credentials[network], secret });
+                //     setSwapState(2);
+                //     console.log("swapOpen (secretHolder) requested, settingSwapState to 2");
+                // }
+            })
+
+        }
+        // else if(swapState === 2) {
+        //     console.log("swapState: swap.created/opening swapOpen sent", swapState)
+        //     user.user.on("swap.opened",swap => {
+        //         // dispatch(updateSwapStatus({ status: 4 }));
+        //         log('swap.opened event received', swap)
+        //         // log("orderSecret in swap.opened",orderSecret)
+        //         if(user.user.id == swap.secretSeeker.id){
+        //             const network = swap.secretHolder.network['@type'].toLowerCase();
+        //             const credentials = user.user.credentials;
+        //             user.user.swapCommit(swap, credentials);
+        //             setSwapState(3);
+        //             console.log("swapCommit (secretSeeker) requested, settingSwapState to 3");
+        //         }
+        //     })
+        //     user.user.on("swap.committing",swap => {
+        //         // dispatch(updateSwapStatus({ status: 5 }));
+        //         log('swap.committing event received', swap)
+        //         log("orderSecret in swap.committing",orderSecret)
+        //
+        //         if(user.user.id == swap.secretHolder.id){
+        //             const network = swap.secretSeeker.network['@type'].toLowerCase();
+        //             const credentials = user.user.credentials;
+        //             user.user.swapCommit(swap, credentials);
+        //             setSwapState(3);
+        //             console.log("swapCommit (secretHolder) requested, settingSwapState to 3");
+        //         }
+        //
+        //     })
+        //
+        // } else if(swapState === 3) {
+        //     console.log("swapState swap.opened/committing swapCommit sent", swapState)
+        //     user.user.on("swap.committed",swap => {
+        //         log('swap.committed event received', swap)
+        //
+        //         let ethBal, btcBal;
+        //
+        //         if(user.user.id == swap.secretHolder.id){
+        //             btcBal = toSats(node.balance) - swap.secretHolder.quantity;
+        //             ethBal = toWei(wallet.balance) + swap.secretSeeker.quantity;
+        //         } else {
+        //             btcBal = toSats(node.balance) + swap.secretHolder.quantity;
+        //             ethBal = toWei(wallet.balance) - swap.secretSeeker.quantity;
+        //         }
+        //
+        //         console.log("swap claim completed, settingSwapState to 4");
+        //         setSwapState(4);
+        //
+        //         const invoiceETH = user.user.id == swap.secretHolder.id ? swap.secretHolder.quantity : swap.secretSeeker.quantity;
+        //         const invoiceBTC = user.user.id == swap.secretHolder.id ? swap.secretHolder.quantity : swap.secretSeeker.quantity;
+        //         dispatch(setNodeBalance(fromSats(btcBal)))
+        //         dispatch(setWalletBalance(fromWei(ethBal)))
+        //     })
+        //
+        // }
+        // // else if(swapState === 4) {
+        // //   console.log("swapState ", swapState)
+        // // } else if(swapState === 5) {
+        // //   console.log("swapState ", swapState)}
+
+    }, [swapState]);
+
 
     return (
         <>

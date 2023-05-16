@@ -6,7 +6,7 @@ import getUser from '../store/util'
 import { hashSecret, newSecret } from '../utils/crypto.js'
 
 
-function OrderForm({setSwapId, setSwapHash, participant, setSecretHolderId, setSecretSeekerId, setSecret}) {
+function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant, setSecretHolderId, setSecretSeekerId, setSecret}) {
     const creds = `submarine-swap-client:submarine-swap-client`
 
 
@@ -33,23 +33,26 @@ function OrderForm({setSwapId, setSwapHash, participant, setSecretHolderId, setS
         const swapHash = await hashSecret(secret)
         console.log("new secret hash: " + swapHash)
 
+        const body = {
+            uid: participant.username,
+            side: side,
+            hash: swapHash,
+            baseAsset: 'BTCORD',
+            baseNetwork: 'btc.btc',
+            baseQuantity: 4000,
+            quoteAsset: 'BTC',
+            quoteNetwork: 'lightning.btc',
+            quoteQuantity: 8000
+        }
+
+
         fetch('/api/v2/orderbook/limit', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 authorization: `Basic ${Buffer.from(creds).toString('base64')}`
             },
-            body: JSON.stringify({
-                uid: participant.username,
-                side: side,
-                hash: swapHash,
-                baseAsset: 'BTCORD',
-                baseNetwork: 'btc.btc',
-                baseQuantity: 4000,
-                quoteAsset: 'BTC',
-                quoteNetwork: 'lightning.btc',
-                quoteQuantity: 8000
-            })
+            body: JSON.stringify(body)
         })
         .then(res => {
             return res.json()
@@ -58,6 +61,7 @@ function OrderForm({setSwapId, setSwapHash, participant, setSecretHolderId, setS
             console.log(`\n\n`)
             console.log(JSON.stringify(data, null, 4))
             console.log(JSON.stringify(participant, null, 4))
+            setSwapState(swapState + 1)
         })
 
         .catch(err => console.log(err))

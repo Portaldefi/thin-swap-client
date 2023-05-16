@@ -16,8 +16,8 @@ export default class Client  extends EventEmitter {
         super()
 
         this.username = props.id
-        props.pathname = props.pathname || '/api/v2/dev'
-        // props.pathname = props.pathname || '/api/v2/updates'
+        // props.pathname = props.pathname || '/api/v2/dev'
+        props.pathname = props.pathname || '/api/v2/updates'
         this.core = new Core(props)
 
         Object.seal(this)
@@ -65,6 +65,10 @@ export default class Client  extends EventEmitter {
 
     _send(obj) {
         return this.core._send(obj)
+    }
+
+    listen(eventName, listener) {
+        this.core.on(eventName, listener)
     }
 
 

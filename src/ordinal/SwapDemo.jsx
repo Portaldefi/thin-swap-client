@@ -13,6 +13,7 @@ function SwapDemo() {
     const [secret, setSecret] = useState(null)
     const [request1, setRequest1] = useState(null)
     const [request2, setRequest2] = useState(null)
+    const [swapState, setSwapState] = useState(0)
     const [alice0, setAlice0] = useState({
         state: {
             isSecretHolder: true,
@@ -43,11 +44,11 @@ function SwapDemo() {
             <p>swapId: {swapId}</p>
             <p>L1-address: {request1}</p>
             <p>L2-invoice: {request2}</p>
-            <OrderForm participant={alice0} setSwapId={setSwapId} setSwapHash={setSwapHash} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setSecret={setSecret}/>
-            <OrderForm participant={bob0} />
+            <OrderForm participant={alice0} swapState={swapState} setSwapState={setSwapState} setSwapId={setSwapId} setSwapHash={setSwapHash} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setSecret={setSecret}/>
+            <OrderForm participant={bob0} swapState={swapState} setSwapState={setSwapState} />
             <p/>
-            <SwapForm swapId={swapId} swapHash={swapHash} participant={alice0} id={secretHolderId} setRequest={setRequest2} secret={secret}/>
-            <SwapForm swapId={swapId} swapHash={swapHash} participant={bob0} id={secretSeekerId} setRequest={setRequest1}/>
+            <SwapForm swapId={swapId} swapState={swapState} setSwapState={setSwapState} swapHash={swapHash} participant={alice0} id={secretHolderId} setRequest={setRequest2} secret={secret}/>
+            <SwapForm swapId={swapId} swapState={swapState} setSwapState={setSwapState} swapHash={swapHash} participant={bob0} id={secretSeekerId} setRequest={setRequest1}/>
 
         </>);
 }
