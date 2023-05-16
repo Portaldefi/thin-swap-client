@@ -3,6 +3,7 @@ import { useState } from "react";
 import SwapCreate from './SwapCreate.jsx'
 import SwapForm from './SwapForm.jsx'
 import SwapLogin from './SwapLogin.jsx'
+import OrderForm from './OrderForm.jsx'
 
 function SwapDemo() {
     const [swapId, setSwapId] = useState(null)
@@ -16,12 +17,14 @@ function SwapDemo() {
         state: {
             isSecretHolder: true,
             secret: secret,
+            swapCreationResponder: true,
             },
         username: 'alice'
         })
     const [bob0, setBob0] = useState({
         state: {
             isSecretHolder: false,
+            swapCreationResponder: false,
             },
         username: 'bob'
         })
@@ -33,11 +36,16 @@ function SwapDemo() {
         <>
             <h1>Ordinal Swap</h1>
             <SwapLogin participant={alice0}/>
+            <p/>
             <SwapLogin participant={bob0}/>
+            <p/>
             <SwapCreate setSwapId={setSwapId} setSwapHash={setSwapHash} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setSecret={setSecret}/>
             <p>swapId: {swapId}</p>
             <p>L1-address: {request1}</p>
             <p>L2-invoice: {request2}</p>
+            <OrderForm participant={alice0} setSwapId={setSwapId} setSwapHash={setSwapHash} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setSecret={setSecret}/>
+            <OrderForm participant={bob0} />
+            <p/>
             <SwapForm swapId={swapId} swapHash={swapHash} participant={alice0} id={secretHolderId} setRequest={setRequest2} secret={secret}/>
             <SwapForm swapId={swapId} swapHash={swapHash} participant={bob0} id={secretSeekerId} setRequest={setRequest1}/>
 

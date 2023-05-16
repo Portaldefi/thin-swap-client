@@ -49,8 +49,8 @@ function SwapLogin({participant}) {
 
     return (
         <>
-            <p><button onClick={doLogin}>Login {participant.username}</button></p>
-            <p><button onClick={doLogout}>Logout {participant.username}</button></p>
+            <button onClick={doLogin}>Login {participant.username}</button>
+            <button onClick={doLogout}>Logout {participant.username}</button>
         </>
     );
 }
