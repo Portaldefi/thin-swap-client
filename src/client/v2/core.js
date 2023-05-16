@@ -103,9 +103,9 @@ export default class Core extends EventEmitter {
                     this._onMessage(...args)
                 }
                 this.emit('connected')
-                console.log('sending test object')
-                this._send(obj)
-                console.log('after sending test obj')
+                // console.log('sending test object')
+                // this._send(obj)
+                // console.log('after sending test obj')
 
                 resolve()
             }
