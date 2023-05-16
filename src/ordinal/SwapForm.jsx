@@ -68,6 +68,63 @@ function SwapForm({swapId, swapHash, participant, id, secret, setRequest}) {
         }
     }, [user])
 
+    const onClickPlaceOrder = () => {
+        const side = participant.username === 'alice'? 'ask' : 'bid'
+
+        const randomSecret = () => randomBytes(32)
+        const sha256 = buffer => createHash('sha256').update(buffer).digest('hex')
+        const secret = randomSecret()
+        const swapHash = sha256(secret)
+        const swapSecret = secret.toString('hex')
+
+        fetch('/api/v2/orderbook/limit', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: `Basic ${Buffer.from(creds).toString('base64')}`
+            },
+            body: JSON.stringify({
+                uid: participant.username,
+                side: side,
+
+
+
+
+
+
+                swap: { id: swapId, swapHash },
+                party: {
+                    id: id,
+                    state: Object.assign(participant.state, {secret: secret})
+                },
+                opts: {
+
+                }
+            })
+        })
+            .then(res => {
+                return res.json()
+            })
+            .then(data => {
+                console.log(`\n\n`)
+                console.log(JSON.stringify(data, null, 4))
+                console.log(JSON.stringify(participant.state, null, 4))
+                console.log(participant.state.isSecretHolder)
+                if (participant.state.isSecretHolder) {
+                    console.log(`request: ${data.secretHolder.state.shared.request}`)
+                    setRequest(data.secretHolder.state.shared.request)
+                }
+                else {
+                    console.log(`request: ${data.secretHolder.state.shared.swapinfo.descriptor}`)
+                    setRequest(data.secretHolder.state.shared.swapinfo.descriptor)
+                }
+
+            })
+
+            .catch(err => console.log(err))
+
+    }
+
     const onClickOpen = () => {
         fetch('/api/v2/swap/submarine', {
             method: 'PUT',
