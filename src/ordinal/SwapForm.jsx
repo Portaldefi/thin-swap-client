@@ -3,7 +3,7 @@ import { Buffer } from "buffer";
 import { useAppSelector } from '../store/hooks'
 import getUser  from '../store/util'
 
-function SwapForm({swapId, swapState, setSwapState, swapHash, participant, id, secret, setRequest}) {
+function SwapForm({swapId, setSwapId, swapState, setSwapState, swapHash, setSwapHash, participant, id, setSecretSeekerId, setSecretHolderId, secret, setRequest}) {
     const creds = `submarine-swap-client:submarine-swap-client`
 
 
@@ -87,12 +87,6 @@ function SwapForm({swapId, swapState, setSwapState, swapHash, participant, id, s
             body: JSON.stringify({
                 uid: participant.username,
                 side: side,
-
-
-
-
-
-
                 swap: { id: swapId, swapHash },
                 party: {
                     id: id,
@@ -240,13 +234,15 @@ function SwapForm({swapId, swapState, setSwapState, swapHash, participant, id, s
             pUser.Client.listen("swap.created",swap => {
                 // dispatch(updateSwapStatus({ status: 2 }));
                 console.log('swap.created event received', swap)
-                // if(user.user.id == swap.secretSeeker.id){ // TODO also add check if swapOpen already called on swap id
-                //     const network = swap.secretHolder.network['@type'].toLowerCase();
-                //     const credentials = user.user.credentials;
-                //     setSwapState(2);
-                //     console.log("swapOpen (secretSeeker) requested, sentsettingSwapState to 2");
-                //     user.user.swapOpen(swap, { [network]: credentials[network]});
-                // }
+                if (participant.state.isSecretHolder) {
+                    setSwapId(swap.id)
+                    setSecretHolderId(swap.secretHolder.id)
+                    setSecretSeekerId(swap.secretSeeker.id)
+                    console.log('swap.secretHash: ', swap.secretHash)
+                    console.log('swapHash: ', swapHash)
+                    setSwapState(3);
+                }
+
             })
             pUser.Client.listen("swap.opening", swap => {
                 console.log('swap.opening event received', swap)
@@ -274,7 +270,7 @@ function SwapForm({swapId, swapState, setSwapState, swapHash, participant, id, s
             pUser.Client.listen("swap.opening", swap => {
                 // dispatch(updateSwapStatus({ status: 3 }));
                 console.log('swap.opening event received', swap)
-                console.log("orderSecret in swap.opening !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! shouldn't be null",orderSecret)
+                // console.log("orderSecret in swap.opening !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! shouldn't be null",orderSecret)
                 // if(user.user.id == swap.secretHolder.id && orderSecret!=null) { // TODO also add check if swapOpen already called on swap id
                 //     const network = swap.secretSeeker.network['@type'].toLowerCase();
                 //     const credentials = user.user.credentials;
