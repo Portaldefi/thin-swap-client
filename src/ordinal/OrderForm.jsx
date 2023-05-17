@@ -33,6 +33,11 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
         const swapHash = await hashSecret(secret)
         console.log("new secret hash: " + swapHash)
 
+        if (participant.state.isSecretHolder) {
+            setSecret(secret)
+            setSwapHash(swapHash)
+        }
+
         const body = {
             uid: participant.username,
             side: side,

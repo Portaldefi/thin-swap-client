@@ -47,8 +47,8 @@ function SwapDemo() {
             <OrderForm participant={alice0} swapState={swapState} setSwapState={setSwapState} setSwapId={setSwapId} setSwapHash={setSwapHash} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setSecret={setSecret}/>
             <OrderForm participant={bob0} swapState={swapState} setSwapState={setSwapState} />
             <p/>
-            <SwapForm swapId={swapId} swapState={swapState} setSwapState={setSwapState} swapHash={swapHash} participant={alice0} id={secretHolderId} setRequest={setRequest2} secret={secret}/>
-            <SwapForm swapId={swapId} swapState={swapState} setSwapState={setSwapState} swapHash={swapHash} participant={bob0} id={secretSeekerId} setRequest={setRequest1}/>
+            <SwapForm swapId={swapId} setSwapId={setSwapId} swapState={swapState} setSwapState={setSwapState} swapHash={swapHash} setSwapHash={setSwapHash} participant={alice0} id={secretHolderId} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setRequest={setRequest2} secret={secret}/>
+            <SwapForm swapId={swapId} setSwapId={setSwapId} swapState={swapState} setSwapState={setSwapState} swapHash={swapHash} setSwapHash={setSwapHash} participant={bob0} id={secretSeekerId} setRequest={setRequest1}/>
 
         </>);
 }
