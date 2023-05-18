@@ -27,11 +27,13 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
     const onClickPlaceOrder = async () => {
         const side = participant.username === 'alice'? 'ask' : 'bid'
 
-        const secret = await newSecret() ;
-        console.log("new secret")
-        console.log(secret)
-        const swapHash = await hashSecret(secret)
-        console.log("new secret hash: " + swapHash)
+        // const secret = await newSecret() ;
+        // console.log("new secret")
+        // console.log("secret: ", secret)
+        // const swapHash = await hashSecret(secret)
+        // console.log("new secret hash: " + swapHash)
+        const secret = "7e6966dc975aa1bb7342140838d9bcdbbed17a95ed6b4c3f1b5fd3c6c5de532e"
+        const swapHash = "a6df3d2ac58c9b3e03d55efb7e15ac77961a6ad46c48432346c9e327001e9411"
 
         if (participant.state.isSecretHolder) {
             setSecret(secret)
