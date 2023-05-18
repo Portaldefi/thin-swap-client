@@ -244,14 +244,14 @@ function SwapForm({swapId, setSwapId, swapState, setSwapState, swapHash, setSwap
                 }
 
             })
-            pUser.Client.listen("swap.opening", swap => {
-                console.log('swap.opening event received', swap)
-                // log("orderSecret in swap.opening shouldn't be null", orderSecret)
-            })
-            pUser.Client.listen("swap.opening", swap => {
-                // dispatch(updateSwapStatus({ status: 3 }));
-                console.log('swap.opening event received', swap)
-            })
+            // pUser.Client.listen("swap.opening", swap => {
+            //     console.log('swap.opening event received', swap)
+            //     // log("orderSecret in swap.opening shouldn't be null", orderSecret)
+            // })
+            // pUser.Client.listen("swap.opening", swap => {
+            //     // dispatch(updateSwapStatus({ status: 3 }));
+            //     console.log('swap.opening event received', swap)
+            // })
         }
         else if (swapState ===3) {
             console.log("swapState: swap order request sent ", swapState)
