@@ -47,7 +47,7 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
             baseQuantity: 4000,
             quoteAsset: 'BTC',
             quoteNetwork: 'lightning.btc',
-            quoteQuantity: 8000
+            quoteQuantity: 4000
         }
 
 
