@@ -37,8 +37,8 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
         // const secret = await secretHex(rawSecret)
         // console.log("new secret: ", secret)
 
-        const secret = "164ab18f256e60ef16ae31cdf7af6caa1a24d04c54baea9c7b4b7220834511aa"
-        const swapHash = "763cdd57c5ea7619bfb8ecb6f0e5e7019fd45bcf4675b1fa329d15a3bba80806"
+        const secret = "ec070ae3c05e5c0e60f344a2f9423c1a5011205134e9336838b187d969951f87"
+        const swapHash = "144d6173208f8fabb09ee343b8d62da52ee3c8265fdb02a5f5cbc206ef90f43e"
 
         if (participant.state.isSecretHolder) {
             setSecret(secret)

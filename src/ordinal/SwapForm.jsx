@@ -178,6 +178,20 @@ function SwapForm({swapId, setSwapId, swapState, setSwapState, swapHash, setSwap
 
         } else if(swapState === 1) {
             console.log("swapState: 1st order placed", swapState)
+
+            pUser.Client.listen("swap.created",swap => {
+                // dispatch(updateSwapStatus({ status: 2 }));
+                console.log('swap.created event received', swap)
+                if (participant.state.isSecretHolder) {
+                    setSwapId(swap.id)
+                    setSecretHolderId(swap.secretHolder.id)
+                    setSecretSeekerId(swap.secretSeeker.id)
+                    console.log('swap.secretHash: ', swap.secretHash)
+                    console.log('swapHash: ', swapHash)
+                    setSwapState(3);
+                }
+
+            })
         }
         else if (swapState === 2) {
             console.log("swapState: 2nd order placed", swapState)
