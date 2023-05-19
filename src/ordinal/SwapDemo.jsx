@@ -40,7 +40,7 @@ function SwapDemo() {
             <p/>
             <SwapLogin participant={bob0}/>
             <p/>
-            <SwapCreate setSwapId={setSwapId} setSwapHash={setSwapHash} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setSecret={setSecret}/>
+            {/*<SwapCreate setSwapId={setSwapId} setSwapHash={setSwapHash} setSecretSeekerId={setSecretSeekerId} setSecretHolderId={setSecretHolderId} setSecret={setSecret}/>*/}
             <p>swapId: {swapId}</p>
             <p>L1-address: {request1}</p>
             <p>L2-invoice: {request2}</p>
