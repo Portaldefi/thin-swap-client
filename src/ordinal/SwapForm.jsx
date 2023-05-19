@@ -181,7 +181,8 @@ function SwapForm({swapId, setSwapId, swapState, setSwapState, swapHash, setSwap
 
             pUser.Client.listen("swap.created",swap => {
                 // dispatch(updateSwapStatus({ status: 2 }));
-                console.log('swap.created event received', swap)
+                console.log(`swap.created event received by ${participant.username}`, swap)
+
                 if (participant.state.isSecretHolder) {
                     setSwapId(swap.id)
                     setSecretHolderId(swap.secretHolder.id)
