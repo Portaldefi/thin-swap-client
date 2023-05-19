@@ -3,11 +3,15 @@ import { Buffer } from "buffer";
 import { useAppSelector } from '../store/hooks'
 // import {createHash, randomBytes} from "crypto"
 import getUser from '../store/util'
-import { hashSecret, newSecret } from '../utils/crypto.js'
+import { hashSecret, newSecret, generateSecret } from '../utils/crypto.js'
 
 
 function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant, setSecretHolderId, setSecretSeekerId, setSecret}) {
     const creds = `submarine-swap-client:submarine-swap-client`
+    const [baseQuantity, setBaseQuantity] = useState(4000)
+    const [quoteQuantity, setQuoteQuantity] = useState(8000)
+    const [ordinalLocation, setOrdinalLocation] = useState('<txn>:0:0')
+    const [fee, setFee] = useState(1000)
 
 
     console.log(`participant in SwapForm: ${JSON.stringify(participant)}`)
@@ -27,13 +31,14 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
     const onClickPlaceOrder = async () => {
         const side = participant.username === 'alice'? 'ask' : 'bid'
 
-        // const secret = await newSecret() ;
-        // console.log("new secret")
-        // console.log("secret: ", secret)
-        // const swapHash = await hashSecret(secret)
+        // const rawSecret = await newSecret() ;
+        // const swapHash = await hashSecret(rawSecret)
         // console.log("new secret hash: " + swapHash)
-        const secret = "7e6966dc975aa1bb7342140838d9bcdbbed17a95ed6b4c3f1b5fd3c6c5de532e"
-        const swapHash = "a6df3d2ac58c9b3e03d55efb7e15ac77961a6ad46c48432346c9e327001e9411"
+        // const secret = await secretHex(rawSecret)
+        // console.log("new secret: ", secret)
+
+        const secret = "ec070ae3c05e5c0e60f344a2f9423c1a5011205134e9336838b187d969951f87"
+        const swapHash = "144d6173208f8fabb09ee343b8d62da52ee3c8265fdb02a5f5cbc206ef90f43e"
 
         if (participant.state.isSecretHolder) {
             setSecret(secret)
@@ -46,10 +51,10 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
             hash: swapHash,
             baseAsset: 'BTCORD',
             baseNetwork: 'btc.btc',
-            baseQuantity: 4000,
+            baseQuantity: baseQuantity,
             quoteAsset: 'BTC',
             quoteNetwork: 'lightning.btc',
-            quoteQuantity: 4000
+            quoteQuantity: quoteQuantity
         }
 
 
@@ -79,6 +84,11 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
     return (
         <>
             <button onClick={onClickPlaceOrder}>Place Order</button>
+            <p><label>ordinal quantity: <input type='number' value={baseQuantity} onChange={(evt) => setBaseQuantity(parseInt(evt.target.value, 10))}/></label></p>
+            <p><label>ordinal location: <input type='text' value={ordinalLocation} onChange={(evt) => setOrdinalLocation(evt.target.value)}/></label></p>
+            <p><label>payment quantity: <input type='number' value={quoteQuantity} onChange={(evt) => setQuoteQuantity(parseInt(evt.target.value, 10))}/></label></p>
+            <p><label>fee: <input type='number' value={fee} onChange={(evt) => setFee(parseInt(evt.target.value, 10))}/></label></p>
+
         </>);
 
 
