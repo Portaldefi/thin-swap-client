@@ -37,8 +37,8 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
         // const secret = await secretHex(rawSecret)
         // console.log("new secret: ", secret)
 
-        const secret = "ec070ae3c05e5c0e60f344a2f9423c1a5011205134e9336838b187d969951f87"
-        const swapHash = "144d6173208f8fabb09ee343b8d62da52ee3c8265fdb02a5f5cbc206ef90f43e"
+        const secret = "897b842c09dd67813a9d7af250f176b37d4a630f096f210fa857e2141a7b3d9b"
+        const swapHash = "932294cbb1bec38f99685e7f9dbe5a6851be87e5c271af29d30f061290bce410"
 
         if (participant.state.isSecretHolder) {
             setSecret(secret)
@@ -54,7 +54,8 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
             baseQuantity: baseQuantity,
             quoteAsset: 'BTC',
             quoteNetwork: 'lightning.btc',
-            quoteQuantity: quoteQuantity
+            quoteQuantity: quoteQuantity,
+            ordinalLocation: ordinalLocation
         }
 
 
