@@ -11,7 +11,7 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
     const [baseQuantity, setBaseQuantity] = useState(4000)
     const [quoteQuantity, setQuoteQuantity] = useState(8000)
     const [ordinalLocation, setOrdinalLocation] = useState('<txn>:0:0')
-    const [fee, setFee] = useState(1000)
+    const [fee, setFee] = useState(0)
 
 
     console.log(`participant in SwapForm: ${JSON.stringify(participant)}`)
@@ -37,8 +37,8 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
         // const secret = await secretHex(rawSecret)
         // console.log("new secret: ", secret)
 
-        const secret = "897b842c09dd67813a9d7af250f176b37d4a630f096f210fa857e2141a7b3d9b"
-        const swapHash = "932294cbb1bec38f99685e7f9dbe5a6851be87e5c271af29d30f061290bce410"
+        const secret = "b163e01580fdf001df3583a9d01069c78a5ad1749b6a5f2364fe790748097ca0"
+        const swapHash = "497f8d057ad72f8ec1682dc7632a1d61a6e675b8d20eee168c22c85ace7238cd"
 
         if (participant.state.isSecretHolder) {
             setSecret(secret)
@@ -88,7 +88,7 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
             <p><label>ordinal quantity: <input type='number' value={baseQuantity} onChange={(evt) => setBaseQuantity(parseInt(evt.target.value, 10))}/></label></p>
             <p><label>ordinal location: <input type='text' value={ordinalLocation} onChange={(evt) => setOrdinalLocation(evt.target.value)}/></label></p>
             <p><label>payment quantity: <input type='number' value={quoteQuantity} onChange={(evt) => setQuoteQuantity(parseInt(evt.target.value, 10))}/></label></p>
-            <p><label>fee: <input type='number' value={fee} onChange={(evt) => setFee(parseInt(evt.target.value, 10))}/></label></p>
+            {/*<p><label>fee: <input type='number' value={fee} onChange={(evt) => setFee(parseInt(evt.target.value, 10))}/></label></p>*/}
 
         </>);
 
