@@ -37,8 +37,8 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
         // const secret = await secretHex(rawSecret)
         // console.log("new secret: ", secret)
 
-        const secret = "b163e01580fdf001df3583a9d01069c78a5ad1749b6a5f2364fe790748097ca0"
-        const swapHash = "497f8d057ad72f8ec1682dc7632a1d61a6e675b8d20eee168c22c85ace7238cd"
+        const secret = "e77cc1219f6db5019777f9f94d54a92589adef20aa8f72ac042d241434062da7"
+        const swapHash = "ab441ccd82da7c1a4dcfd0ce711cc108ce54c6289293eb8d1755ece4463fb0af"
 
         if (participant.state.isSecretHolder) {
             setSecret(secret)
@@ -86,9 +86,9 @@ function OrderForm({swapState, setSwapState, setSwapId, setSwapHash, participant
         <>
             <button onClick={onClickPlaceOrder}>Place Order</button>
             <p><label>ordinal quantity: <input type='number' value={baseQuantity} onChange={(evt) => setBaseQuantity(parseInt(evt.target.value, 10))}/></label></p>
-            <p><label>ordinal location: <input type='text' value={ordinalLocation} onChange={(evt) => setOrdinalLocation(evt.target.value)}/></label></p>
             <p><label>payment quantity: <input type='number' value={quoteQuantity} onChange={(evt) => setQuoteQuantity(parseInt(evt.target.value, 10))}/></label></p>
-            {/*<p><label>fee: <input type='number' value={fee} onChange={(evt) => setFee(parseInt(evt.target.value, 10))}/></label></p>*/}
+            <p><label>ordinal location: <input type='text' value={ordinalLocation} onChange={(evt) => setOrdinalLocation(evt.target.value)} size="64"/></label></p>
+           {/*<p><label>fee: <input type='number' value={fee} onChange={(evt) => setFee(parseInt(evt.target.value, 10))}/></label></p>*/}
 
         </>);
 
